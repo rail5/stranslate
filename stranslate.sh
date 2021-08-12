@@ -105,12 +105,13 @@ list_languages() {
 interactive_mode() {
 	if which fzf >/dev/null 2>&1; then
 		load_languages
-	       	printf "You will be prompted to enter the language you want to translate from, and then the language you want to translate to. Press Enter to continue." && stty -echo && read && \
+	       	printf "You will be prompted to enter the language you want to translate from, and then the language you want to translate to. Press Enter to continue." && stty -echo && read junk && \
 		from_language=$(sed '/From Language/d' "${CACHE_DIR}"from_language | fzf)  && \
 		to_language=$(sed '/To Language/d' "${CACHE_DIR}"to_language | fzf) && \
 		printf '\nFrom Language: [4m%s[0m\nTo Language: [4m%s[0m\nEnter the text you want to translate: ' "${from_language}" "${to_language}" && stty echo && read -r input
 	else
 		echo "You need to install fzf to use the interactive mode."
+		exit 2
 	fi
 }
 
