@@ -1,0 +1,161 @@
+#!/bin/sh
+
+CACHE_DIR="$HOME/.cache/stranslate/"
+
+get_translation() {
+	curl -s -F "from_language=${from_language}" -F "to_language=${to_language}" -F "input=${input}" https://translate.metalune.xyz/"${engine}" | awk '/"Translation"/ {sub("^.*readonly>", "", $0); sub("<.*>", "", $0); print}'
+}
+
+get_languages() {
+	curl -s https://translate.metalune.xyz/"${engine}" | awk '/from_language/ {sub(".*", "From Language", $0); print} /to_language/ {sub(".*", "To Language", $0); print} /option/ {sub("^.*=\"", "", $0); sub("\".*", "", $0); print}'
+}
+
+load_languages() {
+	if [ -n "${engine}" ]; then
+		case "${engine}" in
+			?engine=libre) if [ -s "${CACHE_DIR}"languages_libre.txt ]; then
+				if [ "$(date -r "${CACHE_DIR}"languages_libre.txt +%W)" != "$(date +%W)" ]; then
+					 get_languages > "${CACHE_DIR}"languages_libre.txt
+				fi
+				if [ -p "${CACHE_DIR}"from_language ] && [ -p "${CACHE_DIR}"to_language ]; then
+					sed '/To Language/,$d' "${CACHE_DIR}"languages_libre.txt > "${CACHE_DIR}"from_language &
+					sed '/To Language/p; 1,/To Language/d' "${CACHE_DIR}"languages_libre.txt > "${CACHE_DIR}"to_language &
+				else
+					mkfifo "${CACHE_DIR}"from_language 2>/dev/null
+					mkfifo "${CACHE_DIR}"to_language 2>/dev/null
+					sed '/To Language/,$d' "${CACHE_DIR}"languages_libre.txt > "${CACHE_DIR}"from_language &
+					sed '/To Language/p; 1,/To Language/d' "${CACHE_DIR}"languages_libre.txt > "${CACHE_DIR}"to_language &
+				fi
+			else
+				mkdir -p "${CACHE_DIR}"
+			       	get_languages > "${CACHE_DIR}"languages_libre.txt
+				if [ -p "${CACHE_DIR}"from_language ] && [ -p "${CACHE_DIR}"to_language ]; then
+					sed '/To Language/,$d' "${CACHE_DIR}"languages_libre.txt > "${CACHE_DIR}"from_language &
+					sed '/To Language/p; 1,/To Language/d' "${CACHE_DIR}"languages_libre.txt > "${CACHE_DIR}"to_language &
+				else
+					mkfifo "${CACHE_DIR}"from_language 2>/dev/null
+					mkfifo "${CACHE_DIR}"to_language 2>/dev/null
+					sed '/To Language/,$d' "${CACHE_DIR}"languages_libre.txt > "${CACHE_DIR}"from_language &
+					sed '/To Language/p; 1,/To Language/d' "${CACHE_DIR}"languages_libre.txt > "${CACHE_DIR}"to_language &
+				fi
+			fi;;
+			?engine=google) if [ -s "${CACHE_DIR}"languages_google.txt ]; then
+				if [ "$(date -r "${CACHE_DIR}"languages_google.txt +%W)" != "$(date +%W)" ]; then
+					 get_languages > "${CACHE_DIR}"languages_google.txt
+				fi
+				if [ -p "${CACHE_DIR}"from_language ] && [ -p "${CACHE_DIR}"to_language ]; then
+					sed '/To Language/,$d' "${CACHE_DIR}"languages_google.txt > "${CACHE_DIR}"from_language &
+					sed '/To Language/p; 1,/To Language/d' "${CACHE_DIR}"languages_google.txt > "${CACHE_DIR}"to_language &
+				else
+					mkfifo "${CACHE_DIR}"from_language 2>/dev/null
+					mkfifo "${CACHE_DIR}"to_language 2>/dev/null
+					sed '/To Language/,$d' "${CACHE_DIR}"languages_google.txt > "${CACHE_DIR}"from_language &
+					sed '/To Language/p; 1,/To Language/d' "${CACHE_DIR}"languages_google.txt > "${CACHE_DIR}"to_language &
+				fi
+			else
+				mkdir -p "${CACHE_DIR}"
+			       	get_languages > "${CACHE_DIR}"languages_google.txt
+				if [ -p "${CACHE_DIR}"from_language ] && [ -p "${CACHE_DIR}"to_language ]; then
+					sed '/To Language/,$d' "${CACHE_DIR}"languages_google.txt > "${CACHE_DIR}"from_language &
+					sed '/To Language/p; 1,/To Language/d' "${CACHE_DIR}"languages_google.txt > "${CACHE_DIR}"to_language &
+				else
+					mkfifo "${CACHE_DIR}"from_language 2>/dev/null
+					mkfifo "${CACHE_DIR}"to_language 2>/dev/null
+					sed '/To Language/,$d' "${CACHE_DIR}"languages_google.txt > "${CACHE_DIR}"from_language &
+					sed '/To Language/p; 1,/To Language/d' "${CACHE_DIR}"languages_google.txt > "${CACHE_DIR}"to_language &
+				fi
+			fi;;
+		esac
+	else
+		if [ -s "${CACHE_DIR}"languages_google.txt ]; then
+			if [ "$(date -r "${CACHE_DIR}"languages_google.txt +%W)" != "$(date +%W)" ]; then
+				get_languages > "${CACHE_DIR}"languages_google.txt
+			fi
+			if [ -p "${CACHE_DIR}"from_language ] && [ -p "${CACHE_DIR}"to_language ]; then
+				sed '/To Language/,$d' "${CACHE_DIR}"languages_google.txt > "${CACHE_DIR}"from_language &
+				sed '/To Language/p; 1,/To Language/d' "${CACHE_DIR}"languages_google.txt > "${CACHE_DIR}"to_language &
+			else
+				mkfifo "${CACHE_DIR}"from_language 2>/dev/null
+				mkfifo "${CACHE_DIR}"to_language 2>/dev/null
+				sed '/To Language/,$d' "${CACHE_DIR}"languages_google.txt > "${CACHE_DIR}"from_language &
+				sed '/To Language/p; 1,/To Language/d' "${CACHE_DIR}"languages_google.txt > "${CACHE_DIR}"to_language &
+			fi
+		else
+			mkdir -p "${CACHE_DIR}"
+		     	get_languages > "${CACHE_DIR}"languages_google.txt
+			if [ -p "${CACHE_DIR}"from_language ] && [ -p "${CACHE_DIR}"to_language ]; then
+				sed '/To Language/,$d' "${CACHE_DIR}"languages_google.txt > "${CACHE_DIR}"from_language &
+				sed '/To Language/p; 1,/To Language/d' "${CACHE_DIR}"languages_google.txt > "${CACHE_DIR}"to_language &
+			else
+				mkfifo "${CACHE_DIR}"from_language 2>/dev/null
+				mkfifo "${CACHE_DIR}"to_language 2>/dev/null
+				sed '/To Language/,$d' "${CACHE_DIR}"languages_google.txt > "${CACHE_DIR}"from_language &
+				sed '/To Language/p; 1,/To Language/d' "${CACHE_DIR}"languages_google.txt > "${CACHE_DIR}"to_language &
+			fi
+		fi
+	fi
+}
+
+list_languages() {
+	load_languages
+	pr -m -t "${CACHE_DIR}"from_language "${CACHE_DIR}"to_language
+	exit
+}
+
+interactive_mode() {
+	if which fzf >/dev/null 2>&1; then
+		load_languages
+	       	printf "You will be prompted to enter the language you want to translate from, and then the language you want to translate to. Press Enter to continue." && stty -echo && read && \
+		from_language=$(sed '/From Language/d' "${CACHE_DIR}"from_language | fzf)  && \
+		to_language=$(sed '/To Language/d' "${CACHE_DIR}"to_language | fzf) && \
+		printf '\nFrom Language: [4m%s[0m\nTo Language: [4m%s[0m\nEnter the text you want to translate: ' "${from_language}" "${to_language}" && stty echo && read -r input
+	else
+		echo "You need to install fzf to use the interactive mode."
+	fi
+}
+
+show_help() {
+	echo "Usage: $(basename "$0") [4mENGINE[0m [-f from_language] [-t to_language] [-i input]
+Example: $(basename "$0") -L -f English -t French -i \"The fish in the bathtub\"
+	Options:
+	-h	Show help
+	-L	Use LibreTranslate
+	-G	Use Google Translate (default)
+	-f	Set the language to translate from
+		 This option can be omitted, since by default it will
+		 autodetect the language you're translating from.
+	-t	Set the language to translate to
+		 The default is English.
+	-i	Enter the text to be translated.
+		 To translate a file, enter [4m</path/to/file.txt[0m in quotes.
+		 Use double or single quotes to translate more than one word.
+	-l	List available languages
+		 Use the -L or -G option before the -l option. If no option
+		 is given, Google will be used.
+	-I	Run the interactive mode
+		 This option does not require any argument, since it
+		 will prompt you to enter each required argument. It can be
+		 used with the -L or -G option. At the moment, the interactive
+		 mode requires you to have fzf installed."
+}
+
+while getopts 'hLGf:t:i:lI' arg
+do
+	case "$arg" in
+		h) show_help; exit;;
+		L) engine="?engine=libre";;
+		G) engine="?engine=google";;
+		f) from_language="$OPTARG";;
+		t) to_language="$OPTARG";;
+		i) input="$OPTARG";;
+		l) list_languages;;
+		I) interactive_mode;;
+		?) show_help; exit 2;;
+	esac
+done
+
+[ -z "${input}" ] && echo "An input is needed. Please use the -i option." && exit 2
+[ -z "${from_language}" ] && from_language="Autodetect"
+[ -z "${to_language}" ] && to_language="English"
+
+get_translation

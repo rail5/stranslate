@@ -1,0 +1,133 @@
+.TH STRANSLATE "1" "August 2021"
+.SH NAME
+stranslate \- simply translate
+.SH SYNOPSIS
+.SY stranslate
+.I ENGINE
+.OP \-f from_language
+.OP \-t to_language
+.OP \-i input
+.SY stranslate
+.I ENGINE
+.B \-I
+.SY stranslate
+.I ENGINE
+.B \-l
+.YS
+.SH DESCRIPTION
+.PP
+.B stranslate
+allows you to translate text from your terminal, using a privacy-friendly backend.
+.PP
+.B stranslate
+uses SimplyTranslate
+.UR https://translate.metalune.xyz
+.UE
+as a backend, which is an ethical translation service that doesn't require JavaScript. SimplyTranslate can use both Google Translate and LibreTranslate,
+without compromising your privacy.
+.SH OPTIONS
+.SS Information
+.TP
+.B \-h
+Show help and exit.
+.TP
+.B \-l
+List available languages and exit. This option can be used with the
+.B \-L
+or
+.B \-G
+option.
+.SS Setting the engine
+.PP
+The default engine is Google Translate. Keep in mind that if you want to change the translation engine with one of the below options,
+you should use said option before passing any other, or you may encounter errors.
+.TP
+.B \-L
+Use LibreTranslate as your engine.
+.TP
+.B \-G
+Use Google Translate as your engine.
+.SS General options
+.TP
+.B \-f
+Set the language to translate from. This option can be omitted, since by default it will autodetect the language you're translating from.
+.TP
+.B \-t
+Set to language to translate to. The default is English.
+.TP
+.B \-i
+Input text to be translated. Use double or single quotes to translate more than one word. To translate a file, enter
+.I </path/to/file.txt
+in quotes.
+.TP
+.B \-I
+Interactive mode. This option does not require any argument, since it will prompt you to enter each required argument. It can be used with the
+.B \-L
+or
+.B \-G
+option.
+.SH EXAMPLES
+.PP
+Translate \(dqThe fish in the bathtub\(dq to French using LibreTranslate:
+.SY stranslate
+.B \-L \-f
+.I English
+.B \-t
+.I French
+.B \-i
+.I \(dqThe fish in the bathtub\(dq
+.YS
+.PP
+List the available languages for Google Translate:
+.SY stranslate
+.B \-l 
+.YS
+.PP
+Run the interactive mode using LibreTranslate:
+.SY stranslate
+.B \-LI
+.YS
+.SH FILES
+.PP
+.B stranslate
+stores available languages in the following directory:
+.PP
+.I ~/.cache/stranslate/
+.PP
+Every time you use the
+.B \-l
+or the
+.B \-I
+option,
+.B stranslate
+will check if the contents of the
+.I ~/.cache/stranslate/
+directory are up to date. If the contents of that directory are from last week or older,
+.B stranslate
+will update them just in case a new language got added.
+.SH BUGS
+.PP
+You may encounter undesired results when using the
+.B \-L
+option, if you don't pass it as the first option of the command. If you for example try to do this:
+.SY stranslate
+.B \-l \-L
+.YS
+.PP
+the program will first list the available languages for the default engine (Google), and only after that, it will set the engine to LibreTranslate.
+.PP
+The correct way to do the above, would be:
+.SY stranslate
+.B \-L \-l
+.YS
+.SH REPORTING BUGS
+.PP
+Open an issue at
+.UR https://codeberg.org/justwolf/stranslate
+.UE
+or send a patch at
+.UR xmpp:warrior.spirit@jabber.lqdn.fr
+.UE .
+.SH SEE ALSO
+.BR curl (1),
+.BR trans (1)
