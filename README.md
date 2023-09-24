@@ -12,12 +12,10 @@ Original repo URL: https://codeberg.org/justwolf/stranslate
 **stranslate** uses [SimplyTranslate](https://simplytranslate.org/) as a backend, which is an ethical translation service that doesn't require JavaScript.
 SimplyTranslate can use both Google Translate and LibreTranslate, without compromising your privacy.
 
-## Installation
-
-To install **stranslate** simply run as root:
-
-	make install
-
 ## Usage
 
 For detailed information about the usage of the program, see the manual.
+
+## Installation
+
+Debian packages for easy installation are provided in the Github 'Releases' section and on the [deb.rail5.org](https://deb.rail5.org/) repository.
