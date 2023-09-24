@@ -1,5 +1,10 @@
 # stranslate
 
+## Info
+Forked from justwolf's "stranslate" which is unmaintained. I will continue to maintain this as long as I continue to use it.
+
+Original repo URL: https://codeberg.org/justwolf/stranslate
+
 ## Description
 
 **stranslate** is a simple shell script that allows you to translate text from your terminal, using a [privacy-friendly backend](https://git.sr.ht/~metalune/simplytranslate_web).
