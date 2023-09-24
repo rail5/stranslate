@@ -3,11 +3,11 @@
 CACHE_DIR="$HOME/.cache/stranslate/"
 
 get_translation() {
-	curl -s -F "from_language=${from_language}" -F "to_language=${to_language}" -F "input=${input}" https://translate.metalune.xyz/"${engine}" | awk '/"Translation"/ {sub("^.*readonly>", "", $0); sub("<.*>", "", $0); print}'
+	curl -s -F "from=${from_language}" -F "to=${to_language}" -F "text=${input}" https://simplytranslate.org/"${engine}" | grep -Poe "readonly>.*</textarea>" | sed -e "s/readonly>//g" | sed -e "s/<\/textarea>//g"
 }
 
 get_languages() {
-	curl -s https://translate.metalune.xyz/"${engine}" | awk '/from_language/ {sub(".*", "From Language", $0); print} /to_language/ {sub(".*", "To Language", $0); print} /option/ {sub("^.*=\"", "", $0); sub("\".*", "", $0); print}'
+	curl -s https://simplytranslate.org/"${engine}" | awk '/from_language/ {sub(".*", "From Language", $0); print} /to_language/ {sub(".*", "To Language", $0); print} /option/ {sub("^.*=\"", "", $0); sub("\".*", "", $0); print}'
 }
 
 load_languages() {

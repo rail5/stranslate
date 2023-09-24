@@ -9,7 +9,7 @@ Original repo URL: https://codeberg.org/justwolf/stranslate
 
 **stranslate** is a simple shell script that allows you to translate text from your terminal, using a [privacy-friendly backend](https://git.sr.ht/~metalune/simplytranslate_web).
 
-**stranslate** uses [SimplyTranslate](https://translate.metalune.xyz) as a backend, which is an ethical translation service that doesn't require JavaScript.
+**stranslate** uses [SimplyTranslate](https://simplytranslate.org/) as a backend, which is an ethical translation service that doesn't require JavaScript.
 SimplyTranslate can use both Google Translate and LibreTranslate, without compromising your privacy.
 
 ## Installation
