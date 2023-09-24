@@ -1,0 +1,5 @@
+stranslate (1.0) bullseye; urgency=low
+
+  * Added Debian packaging to the stranslate script
+
+ -- rail5 <andrew@rail5.org>  Sun, 24 Sep 2023 12:34:23 +0800
