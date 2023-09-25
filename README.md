@@ -14,7 +14,11 @@ SimplyTranslate can use both Google Translate and LibreTranslate, without compro
 
 ## Usage
 
-Basic usage: `stranslate -f "Chinese" -t "English" -i "你好"`
+Basic usage:
+
+`stranslate -f "Chinese" -t "English" -i "你好"`
+
+`stranslate "你好"`
 
 For detailed information about the usage of the program, see the manual.
 

@@ -161,7 +161,13 @@ do
 	esac
 done
 
-[ -z "${input}" ] && echo "An input is needed. Please use the -i option." && exit 2
+# Allow passing text to translate without -i
+if [ -z "${input}" ]; then
+	shift $(($OPTIND-1))
+	input="$1"
+fi
+
+[ -z "${input}" ] && echo "stranslate: No input provided" && exit 2
 [ -z "${from_language}" ] && from_language="Autodetect"
 [ -z "${to_language}" ] && to_language="English"
 
