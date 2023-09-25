@@ -6,6 +6,7 @@ get_translation() {
 	translation=$(curl -s -F "from=${from_language}" -F "to=${to_language}" -F "text=${input}" https://simplytranslate.org/"${engine}" | grep -Poe "readonly>.*</textarea>" | sed -e "s/readonly>//g" | sed -e "s/<\/textarea>//g")
 	if [ "$translation" = "" ]; then
 	    echo "stranslate: Error getting translation"
+	    exit 1
 	else
     	echo "$translation"
     fi

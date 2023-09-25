@@ -1,3 +1,9 @@
+stranslate (1.1.1) stable; urgency=medium
+
+  * Appending exit code on error receiving translation
+
+ -- rail5 <andrew@rail5.org>  Mon, 25 Sep 2023 12:57:07 +0800
+
 stranslate (1.1) stable; urgency=medium
 
   * Added some small semi error handling. Will flesh out
