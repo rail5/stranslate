@@ -3,7 +3,12 @@
 CACHE_DIR="$HOME/.cache/stranslate/"
 
 get_translation() {
-	curl -s -F "from=${from_language}" -F "to=${to_language}" -F "text=${input}" https://simplytranslate.org/"${engine}" | grep -Poe "readonly>.*</textarea>" | sed -e "s/readonly>//g" | sed -e "s/<\/textarea>//g"
+	translation=$(curl -s -F "from=${from_language}" -F "to=${to_language}" -F "text=${input}" https://simplytranslate.org/"${engine}" | grep -Poe "readonly>.*</textarea>" | sed -e "s/readonly>//g" | sed -e "s/<\/textarea>//g")
+	if [ "$translation" = "" ]; then
+	    echo "stranslate: Error getting translation"
+	else
+    	echo "$translation"
+    fi
 }
 
 get_languages() {

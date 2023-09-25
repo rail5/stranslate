@@ -1,3 +1,10 @@
+stranslate (1.1) stable; urgency=medium
+
+  * Added some small semi error handling. Will flesh out
+  more fully later on.
+
+ -- rail5 <andrew@rail5.org>  Mon, 25 Sep 2023 12:53:51 +0800
+
 stranslate (1.0) bullseye; urgency=low
 
   * Added Debian packaging to the stranslate script
