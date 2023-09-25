@@ -1,3 +1,10 @@
+stranslate (1.2) stable; urgency=medium
+
+  * Text input can now be passed to stranslate as a non-option
+  argument, which is much more intuitive for most users
+
+ -- rail5 <andrew@rail5.org>  Mon, 25 Sep 2023 21:24:47 +0800
+
 stranslate (1.1.1) stable; urgency=medium
 
   * Appending exit code on error receiving translation
